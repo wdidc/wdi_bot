@@ -16,7 +16,7 @@ var WebSocket = require ( "ws" );
 // if {message: ...} starts with D, AnonBot has received a direct message
 // direct message is stored in {text: ...}
 // if {text} contains <@U08LS74MR>, then we know it is a mention to AnonBot
-// if {channel} is G08LT3JQ4, it is a direct message to AnonBot
+// if {channel} is present, 
 
 
 

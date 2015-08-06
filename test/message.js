@@ -26,6 +26,13 @@ describe( "AnonBot", function(){
       assert.ifError( message( seeds[0] ).isDirectMessage() );
       assert.ifError( message( seeds[1] ).isDirectMessage() );
     })
+    it("posts the direct message into the test group", function(done){
+      var msg = message(seeds[2])
+      msg.post(function(response){
+        assert(response.ok)
+        done();
+      })
+    })
   })
 })
 

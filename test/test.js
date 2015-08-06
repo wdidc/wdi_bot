@@ -6,7 +6,9 @@ var seeds = [
   // mention
   {"type":"message","channel":"G08LT3JQ4","user":"U03PX5UA0","text":"this mentions <@U08LS74MR>","ts":"1438805588.000012","team":"T0351JZQ0"},
   // direct message
-  {"type":"message","channel":"D08LU1H32","user":"U03PX5UA0","text":"this is a private message","ts":"1438805598.000003","team":"T0351JZQ0"}
+  {"type":"message","channel":"D08LU1H32","user":"U03PX5UA0","text":"this is a private message","ts":"1438805598.000003","team":"T0351JZQ0"},
+  // user typing
+  {"type": 'user_typing', "channel": 'D08M4TWMC', "user": 'U03PX5UA0'}
 ]
 
 var assert = require( "assert" );

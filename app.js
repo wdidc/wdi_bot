@@ -18,7 +18,7 @@ request( "https://slack.com/api/rtm.start?token=" + env.token, function( err, re
       }, {
         channel: env.group_id,
         text: JSON.parse(msgObj).text,
-        username: "AnonBot",
+        username: env.bot_name,
         as_user: true
       })
     }

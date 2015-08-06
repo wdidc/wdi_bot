@@ -57,4 +57,12 @@ describe("slack", function(){
       text: "Running from Mocha."
     })
   })
+  it( "converts user id to name", function( done ){
+    client.users.info( function( response ){
+      assert.equal( response.user.name, "jshawl")
+      done();
+    }, {
+      user: "U03PX5UA0"
+    })
+  })
 })

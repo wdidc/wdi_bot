@@ -28,4 +28,23 @@ describe("slack", function(){
       done()
     })
   })
+  it("lists channels with options", function(done){
+    client.channels.list(function(response){
+      assert(response.ok) 
+      done()
+    })
+  }, {
+    exclude_archived: 1
+  })
+  it("gets info about a channel", function(done){
+    client.channels.list(function(response){
+      var channelId = response.channels[0].id
+      client.channels.info(function(response){
+	assert(response.ok)
+	done()
+      },{
+	channel: channelId
+      }) 
+    })
+  })
 })

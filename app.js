@@ -6,21 +6,23 @@ var message = require( "./lib/message" );
 request( "https://slack.com/api/rtm.start?token=" + env.token, function( err, response, body ){
   var ws = new WebSocket( JSON.parse( body ).url );
   ws.on( "message", function( msgObj ){
-    var msg = message( msgObj );
+    msgObj = JSON.parse(msgObj);
+    var msg = message( msgObj ),
+        txt = msgObj.text;
     if( msg.isMention() ){
       console.log( "User was mentioned" );
-    }
-    else if( msg.isDirectMessage() ){
+    }else if( msg.isDirectMessage() ){
       console.log( "User was DM'd" );
-      console.log( msgObj );
-      msg.post( function(res){
-        console.log( res );
-      }, {
-        channel: env.group_id,
-        text: JSON.parse(msgObj).text,
-        username: env.bot_name,
-        as_user: true
-      })
+      if( msg.isAuthorized() ){
+        msg.post({
+          channel: env.public_group_id,
+          as_user: true,
+          text: txt
+        });
+        msg.notify(txt);
+      }else{
+        msg.notify("UNAUTHORIZED: " + txt)
+      }
     }
   })
 });

@@ -31,6 +31,9 @@ describe( "AnonBot", function(){
       msg.post(function(response){
         assert(response.ok)
         done();
+      }, {
+        channel: "G08LT3JQ4",
+        text: "Message sent from Mocha."
       })
     })
   })

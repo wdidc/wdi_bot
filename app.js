@@ -12,6 +12,15 @@ request( "https://slack.com/api/rtm.start?token=" + env.token, function( err, re
     }
     else if( msg.isDirectMessage() ){
       console.log( "User was DM'd" );
+      console.log( msgObj );
+      msg.post( function(res){
+        console.log( res );
+      }, {
+        channel: env.group_id,
+        text: JSON.parse(msgObj).text,
+        username: "AnonBot",
+        as_user: true
+      })
     }
   })
 });

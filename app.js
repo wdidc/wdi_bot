@@ -7,11 +7,7 @@ request( "https://slack.com/api/rtm.start?token=" + env.token, function( err, re
   var ws = new WebSocket( JSON.parse( body ).url );
   ws.on( "message", function( msgObj ){
     var msg = message( msgObj );
-    if( msg.isMention() ){
-      console.log( "User was mentioned" );
-    }
-    else if( msg.isDirectMessage() ){
-      console.log( "User was DM'd" );
+    if( msg.isMention() || msg.isDirectMessage() ){
       console.log( msgObj );
       msg.post( function(res){
         console.log( res );

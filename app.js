@@ -18,7 +18,7 @@ request("https://slack.com/api/rtm.start?token=" + env.token, function(err,respo
       m.repost({from: m.sender, to: env.public_group_id})
       return
     }
-    if(m.type == "dm" && m.sender){
+    if(m.type == "dm" && m.sender != "self"){
       SlackAPI.get_username(m.user, function(username){
         m.repost({from: m.sender, to: env.public_group_id})
         m.repost({from: username, to: env.private_group_id})

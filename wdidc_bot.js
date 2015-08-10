@@ -13,7 +13,7 @@ request("https://slack.com/api/rtm.start?token=" + env.token, function(err,respo
     var m = Message( JSON.parse(message) );
     if(!m.type) return;
     console.log(m.type + " from " + m.sender + " (" + m.user + ")")
-    
+
     if(m.type == "mention" && m.sender == "instructor"){
       m.repost({from: m.sender, to: env.public_group_id})
     }

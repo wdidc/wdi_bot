@@ -1,36 +1,40 @@
-var env = require( "./env" );
-var h = require("./lib/h")()
-var request = require( "request" );
-
+var request   = require( "request" );
 var WebSocket = require ( "ws" );
-var Anonbot = require("./lib/anonbot")();
+var env       = require( "./env" );
 
-request( "https://slack.com/api/rtm.start?token=" + env.token, function( err, response, body ){
+var h       = require("./lib/helper")();
+var Message = require("./lib/message");
+var SlackAPI= require("./lib/slack")();
+
+request("https://slack.com/api/rtm.start?token=" + env.token, function(err,response,body){
   var ws = new WebSocket( JSON.parse( body ).url );
 
   ws.on( "message", function( message ){
-    message = JSON.parse(message);
+    var m = Message( JSON.parse(message) );
+    if(!m.type) return;
 
-    if(message.text && message.text.match( env.bot_id )){
-      message.type = "mention";
-    }else if(message.text && message.channel && message.channel[0] == "D"){
-      message.type = "dm";
-    }else{
+    console.log(m.type + " from " + m.sender + " (" + m.user + ")")
+    if(m.type == "mention" && m.sender == "instructor"){
+      m.repost({
+        from: m.sender,
+        to: env.public_group_id
+      })
       return
     }
-    message.text = message.text.replace("<@" + env.bot_id + ">: ", "");
-
-    switch(message.type){
-      case "mention":
-        console.log("***Received mention from " + message.user);
-        if(message.channel == env.private_group_id && message.user != env.bot_id){
-          Anonbot.instructor_message( message )
-        }
-        break;
-      case "dm":
-        console.log("***Received DM from " + message.user);
-        Anonbot.student_message( message )
-        break;
+    if(m.type == "dm" && m.sender){
+      SlackAPI.get_username(m.user, function(username){
+        m.repost({
+          from: m.sender,
+          to: env.public_group_id
+        })
+        m.repost({
+          from: username,
+          to: env.private_group_id
+        })
+      });
+      return
     }
+
   });
-})
+
+});

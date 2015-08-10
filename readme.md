@@ -34,8 +34,6 @@ $ node app.js
 
 ## User
 
-When anyone DMs the bot, it will send the response to the public group headed with the text "[Student]", and to the private group headed with the messagers username.
+When anyone DMs the bot, it will repost the response to the public group headed with the text `[Student]`, and to the private group headed with `[MESSAGER'S_USERNAME]`.
 
-When anyone @mentions the bot from the "private group", it will send the response to the public group headed with the text "[Instructor]". Presumably, anyone in the private group will be "authorized" to use the bot.
-
-The `h` in `h.js` stands for "helper", as in "helper methods".
+When anyone @mentions the bot from the "private group", it will send the response to the public group headed with the text `[Instructor]`. Presumably, anyone in the private group will be "authorized" to use the bot.

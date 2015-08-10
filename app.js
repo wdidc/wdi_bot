@@ -15,22 +15,13 @@ request("https://slack.com/api/rtm.start?token=" + env.token, function(err,respo
 
     console.log(m.type + " from " + m.sender + " (" + m.user + ")")
     if(m.type == "mention" && m.sender == "instructor"){
-      m.repost({
-        from: m.sender,
-        to: env.public_group_id
-      })
+      m.repost({from: m.sender, to: env.public_group_id})
       return
     }
     if(m.type == "dm" && m.sender){
       SlackAPI.get_username(m.user, function(username){
-        m.repost({
-          from: m.sender,
-          to: env.public_group_id
-        })
-        m.repost({
-          from: username,
-          to: env.private_group_id
-        })
+        m.repost({from: m.sender, to: env.public_group_id})
+        m.repost({from: username, to: env.private_group_id})
       });
       return
     }

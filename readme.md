@@ -21,8 +21,8 @@ Create a file named `env.js` in the root of the project:
 // env.js
 
 module.exports = {
-  token: "###",
-  bot_id: "###",
+  token: "###", // The bot's API token
+  bot_id: "###", // The bot's user ID
   private_group_id: "###", // The group from which those authorized may @mention the bot
   public_group_id: "###" // The main group to which the bot will be posting
 }

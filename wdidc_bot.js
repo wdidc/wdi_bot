@@ -6,7 +6,7 @@ var h       = require("./lib/helper")();
 var Message = require("./lib/message");
 var SlackAPI= require("./lib/slack")();
 
-SlackAPI.refresh_users();
+SlackAPI.refresh_groups();
 
 request("https://slack.com/api/rtm.start?token=" + env.token, function(err,response,body){
   var ws = new WebSocket( JSON.parse( body ).url );
@@ -20,7 +20,7 @@ request("https://slack.com/api/rtm.start?token=" + env.token, function(err,respo
     }
 
     if(m.group == "dm"){
-      if(m.sender == "instructor") m.reply("Hey, Instructor! Please @mention your message to me in the private group. DMs are intended for students.");
+      if(m.sender == "instructor") m.reply("Hey, Instructor! Please @mention your message to me in `" + global.bot.private_group_name + "`. DMs are intended for students.");
       if(m.sender == "student"){
         if(m.intent == "repost"){
           m.repost({from: m.sender, to: env.public_group_id})
@@ -39,11 +39,11 @@ request("https://slack.com/api/rtm.start?token=" + env.token, function(err,respo
         if(m.intent == "command"){
           if(m.command == "edit") m.edit(m.time);
           if(m.command == "delete") m.delete(m.time);
-          if(m.command == "refresh") SlackAPI.refresh_users();
+          if(m.command == "refresh") SlackAPI.refresh_groups();
         }
       }
-      if(m.intent == "join") SlackAPI.refresh_users();
-      if(m.intent == "leave") SlackAPI.refresh_users();
+      if(m.intent == "join") SlackAPI.refresh_groups();
+      if(m.intent == "leave") SlackAPI.refresh_groups();
     }
 
   });

@@ -34,24 +34,45 @@ $ node app.js
 
 ## Posting
 
-When anyone DMs the bot, it will repost the response to the public group headed with the text `[Student]`, and to the private group headed with `[MESSAGER'S_USERNAME]`.
+When anyone DMs the bot, it will check to see whether that person is a student or instructor by comparing their user ID against the IDs of those in the "private" group.
 
-When anyone @mentions the bot from the "private group", it will send the response to the public group headed with the text `[Instructor]`. Presumably, anyone in the private group will be "authorized" to use the bot.
+If the user is a student, it will repost the response to the public group headed with the text `[Student]`, and to the private group headed with `[MESSAGER'S_USERNAME]`.
 
-## Editing
+When anyone @mentions the bot from the "private group", it will send the response to the public group headed with the text `[Instructor]`. (Presumably, anyone in the private group will be "authorized" to use the bot.)
 
-In the private room, @mention the bot like so:
+## Commands
+
+In the private room, @mention the bot with a command inside `!!{ }!!`.
+
+### edit
+
+Examples: 
 ```
-@bots_name !!{edit 1439176878000016}!! This post should now be edited.
+@test_wdi_bot: !!{edit 1439338127000074}
+
+@test_wdi_bot: !!{edit https://ga-students.slack.com/archives/wdi_bot_test_public/p1439338127000074}!! This has been edited again.
 ```
-The number is the timestamp of the original message, which can be obtained by clicking the little o'clock number to the left of the message. This takes you to a URL like the following:
 
-https://slack_team.slack.com/archives/bot_test/p1439176878000016
+The second value contains the timestamp of the post *when it was made inside the **public** group*.
 
-Simply copy the timestamp from the end, excluding the leading `p`.
+It can be obtained by going into the public group, right-clicking the time o'clock to the left of the message, and selecting "copy link".
 
 The text following the `!!{...}!!` is what will replace the original text.
 
-## Deleting
+### delete
 
 Same as editing, but with the word `delete` instead of `edit`, and the text following the `!!{...}!!` has no effect.
+
+### refresh
+```
+@test_wdi_bot: !!{refresh}!!
+```
+
+This makes the bot refresh its list of which users are a part of the private group. It runs automatically whenever a user joins or leaves the private group.
+
+## Testing
+
+```
+npm -g install mocha
+mocha -b
+```

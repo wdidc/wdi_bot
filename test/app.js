@@ -7,39 +7,30 @@ var h       = require("../lib/helper")();
 var Message = require("../lib/message");
 var SlackAPI= require("../lib/slack")();
 
+process.env.admin_ids = "U03LQC301,U03PX5UA0,U08N52D9A,U08NE835M";
+
 var assert = require( "assert" );
 describe( "Message", function(){
-  describe( "Type", function(){
+  describe( "Group", function(){
     describe( "Mention", function(){
       it( "contains the bot's ID", function(){
-        assert( seeds[1].text.match(env.bot_id));
-        for( var x = 1; x <= 5; x++ ){
-          assert.equal(Message( seeds[x] ).type, "mention");
-        }
-        assert.notEqual( Message( seeds[0] ).type, "mention" );
-        assert.notEqual( Message( seeds[6] ).type, "mention" );
+        assert( seeds.pub_mention.text.match(env.bot_id) );
+        assert( !Message( seeds.any_message ).is_mention);
+        assert( !Message( seeds.student_dm ).is_mention );
       })
     })
     describe( "Direct Message", function(){
       it( "'s channel starts with D", function(){
-        assert.equal( seeds[6].channel[0], "D" );
-        assert.equal( Message( seeds[6] ).type, "dm" );
-        assert.notEqual( Message( seeds[5] ).type, "dm" );
+        assert.equal( seeds.student_dm.channel[0], "D" );
+        assert.equal( Message( seeds.student_dm ).group, "dm" );
+        assert.notEqual( Message( seeds.pvt_mention ).group, "dm" );
       })
     })
   })
   describe( "Sender", function(){
-    describe("when from a user with the bot's id", function(){
-      it("is itself", function(){
-        assert.equal( seeds[3].user, env.bot_id );
-        assert.equal( Message(seeds[3]).sender, "self" );
-        assert.notEqual( seeds[2].user, env.bot_id );
-        assert.notEqual( Message(seeds[2]).sender, "self" );
-      })
-    })
     describe("when it is a mention", function(){
       describe("from the private group", function(){
-        var message = Message( seeds[4] );
+        var message = Message( seeds.pvt_mention );
         it("is an instructor", function(){
           assert.equal( message.channel, env.private_group_id );
           assert.equal( message.sender, "instructor" );
@@ -47,17 +38,30 @@ describe( "Message", function(){
       })
     })
     describe("when it is a direct message", function(){
-      it("is a student", function(){
-        var message = Message( seeds[6] );
-        assert.equal( message.type, "dm" );
-        assert.equal( message.sender, "student" );
+      describe("from an admin id", function(){
+        it("is an instructor", function(){
+          assert.equal(Message( seeds.instructor_dm ).sender, "instructor");
+        })
+      })
+      describe("otherwise", function(){
+        it("is a student", function(){
+          assert.equal(Message( seeds.student_dm ).sender, "student");
+        })
+      })
+    })
+  })
+  describe("Intent", function(){
+    describe("Command", function(){
+      it("contains '!!{}!!'", function(){
+
       })
     })
   })
 })
 
+
 describe("SlackAPI", function(){
-  it("is has a `get` function", function(){
+  it("has a `get` function", function(){
     assert.equal(typeof SlackAPI.get, "function")
   })
   it("checks in with the slack api", function(done){
@@ -105,10 +109,34 @@ describe("SlackAPI", function(){
 describe( "App", function(){
   describe("when it receives a mention", function(){
     describe("from an instructor", function(){
+      describe("which is a command", function(){
+        describe("to update", function(){
+          describe("by editing", function(){
+
+          })
+        })
+      })
+      describe("otherwise", function(){
+        it("reposts to the public group", function(done){
+          var m = Message( seeds.pvt_mention );
+          assert(m.is_mention)
+          assert.equal(m.sender, "instructor")
+          m.repost(
+            {from: m.sender, to: env.public_group_id},
+            function(response){
+              assert(response.ok)
+              done()
+            }
+          )
+        })
+      })
+    })
+  })
+  describe("when it receives a DM", function(){
+    describe("from a student", function(){
+      var m = Message( seeds.student_dm )
+      assert.equal(m.group, "dm")
       it("reposts to the public group", function(done){
-        var m = Message( seeds[4] );
-        assert.equal(m.type, "mention")
-        assert.equal(m.sender, "instructor")
         m.repost(
           {from: m.sender, to: env.public_group_id},
           function(response){
@@ -117,30 +145,15 @@ describe( "App", function(){
           }
         )
       })
-    })
-  })
-  describe("when it receives a DM", function(){
-    it("reposts to the public group", function(done){
-      var m = Message( seeds[6] )
-      assert.equal(m.type, "dm")
-      m.repost(
-        {from: m.sender, to: env.public_group_id},
-        function(response){
-          assert(response.ok)
-          done()
-        }
-      )
-    })
-    it("reposts to the private group", function(){
-      var m = Message( seeds[6] )
-      assert.equal(m.type, "dm")
-      m.repost(
-        {from: m.sender, to: env.private_group_id},
-        function(response){
-          assert(response.ok)
-          done()
-        }
-      )
+      it("reposts to the private group", function(){
+        m.repost(
+          {from: m.sender, to: env.private_group_id},
+          function(response){
+            assert(response.ok)
+            done()
+          }
+        )
+      })
     })
   })
 })

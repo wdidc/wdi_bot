@@ -20,7 +20,7 @@ request("https://slack.com/api/rtm.start?token=" + env.token, function(err,respo
     }
 
     if(m.group == "dm"){
-      if(m.sender == "instructor") m.reply("Hey, Instructor! Please @mention your name to me in the private group. DMs are intended for students.");
+      if(m.sender == "instructor") m.reply("Hey, Instructor! Please @mention your message to me in the private group. DMs are intended for students.");
       if(m.sender == "student"){
         if(m.intent == "repost"){
           m.repost({from: m.sender, to: env.public_group_id})

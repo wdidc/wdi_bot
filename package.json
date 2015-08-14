@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "request": "^2.60.0",
-    "ws": "^0.7.2"
+    "ws": "^0.7.2",
+    "cron": "*"
   }
 }

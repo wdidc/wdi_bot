@@ -6,10 +6,14 @@ var fs        = require("fs");
 var h       = require("./lib/helper")();
 var Message = require("./lib/message");
 var SlackAPI= require("./lib/slack")();
-var response = {
-  commands: fs.readFile(__dirname + "/assets/commands.txt"),
-  commands_instructor: fs.readFile(__dirname + "/assets/commands_instructor.txt")
-}
+
+var boilerplate = {}
+fs.readFile(__dirname + "/boilerplate/commands.txt", "utf8", function(e, d){
+  boilerplate.commands = d;
+})
+fs.readFile(__dirname + "/boilerplate/commands_instructor.txt", "utf8", function(e, d){
+  boilerplate.commands_instructor = d;
+})
 
 SlackAPI.refresh_groups();
 
@@ -25,12 +29,23 @@ request("https://slack.com/api/rtm.start?token=" + env.token, function(err,respo
       if(m.intent == "command"){
         switch(m.command.name.toLowerCase()){
           case "help":
-            m.reply(response.commands);
+            m.reply(
+              (function(){
+                var output = boilerplate["commands"];
+                if(m.sender == "instructor"){
+                  output += "\n" + boilerplate["commands_instructor"]
+                }
+                return output;
+              }())
+            );
             break;
           case "anonymous":
             m.repost({from: m.sender, to: env.public_group_id})
             SlackAPI.get_username(m.user, function(username){
-              m.repost({from: username, to: env.private_group_id})
+              m.repost({
+                to: env.private_group_id,
+                message: "*[" + username + "]*: " + m.text
+              })
             });
             break;
           case "edit":
@@ -38,9 +53,8 @@ request("https://slack.com/api/rtm.start?token=" + env.token, function(err,respo
             if(!m.edit(m.command.args[0])) return;
             SlackAPI.get_username(m.user, function(username){
               m.repost({
-                from: username,
                 to: env.private_group_id,
-                message: "Edited " + h.get_time(m.command.args[0]) + ": " + m.text
+                message: username + " edited " + h.get_time(m.command.args[0]) + ": " + m.text
               })
             });
             break;
@@ -49,9 +63,8 @@ request("https://slack.com/api/rtm.start?token=" + env.token, function(err,respo
             if(!m.delete(m.command.args[0])) return;
             SlackAPI.get_username(m.user, function(username){
               m.repost({
-                from: username,
                 to: env.private_group_id,
-                message: "Deleted " + h.get_time(m.command.args[0])
+                message: username + " deleted " + h.get_time(m.command.args[0])
               })
             });
             break;

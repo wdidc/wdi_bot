@@ -44,7 +44,7 @@ request("https://slack.com/api/rtm.start?token=" + env.token, function(err,respo
               SlackAPI.get_username(m.user, function(username){
                 m.repost({
                   to: env.private_group_id,
-                  message: "[" + username + " " + ms.ts.replace(".","") + "]: " + m.text
+                  message: "```\n" + username + " posted " + ms.ts.replace(".","") + ": " + m.text + "\n```"
                 })
               });
             });
@@ -55,7 +55,7 @@ request("https://slack.com/api/rtm.start?token=" + env.token, function(err,respo
             SlackAPI.get_username(m.user, function(username){
               m.repost({
                 to: env.private_group_id,
-                message: username + " edited " + h.get_time(m.command.args[0]).replace(".","") + ": " + m.text
+                message: "```\n" + username + " edited " + h.get_time(m.command.args[0]).replace(".","") + ": " + m.text + "\n```"
               })
             });
             break;
@@ -65,7 +65,7 @@ request("https://slack.com/api/rtm.start?token=" + env.token, function(err,respo
             SlackAPI.get_username(m.user, function(username){
               m.repost({
                 to: env.private_group_id,
-                message: username + " deleted " + h.get_time(m.command.args[0]).replace(".","")
+                message: "```\n" + username + " delete " + h.get_time(m.command.args[0]).replace(".","") + "\n```"
               })
             });
             break;

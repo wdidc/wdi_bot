@@ -7,7 +7,8 @@ var h       = require("../lib/helper")();
 var Message = require("../lib/message");
 var SlackAPI= require("../lib/slack")();
 
-process.env.admin_ids = "U03LQC301,U03PX5UA0,U08N52D9A,U08NE835M";
+global.bot = {}
+global.bot.admin_ids = "U03LQC301,U03PX5UA0,U08N52D9A,U08NE835M";
 
 var assert = require( "assert" );
 describe( "Message", function(){

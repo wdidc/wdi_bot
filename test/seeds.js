@@ -252,7 +252,7 @@ module.exports = {
   pvt_mention_long: {
       "channel": env.privte_group_id,
       "team": "T0351JZQ0",
-      "text": "text": "<@U08NE835M>: <!group> For those of you interested, here are some UX book recommendations from Kara.\n\nDon\u2019t make me think, Revisited \n<http:\/\/www.amazon.com\/gp\/product\/0321965515\/ref=pd_lpo_sbs_dp_ss_1?pf_rd_p=1944687622&amp;pf_rd_s=lpo-top-stripe-1&amp;pf_rd_t=201&amp;pf_rd_i=0789723107&amp;pf_rd_m=ATVPDKIKX0DER&amp;pf_rd_r=1HP8FGN2DVT77B8M2JYW>\n\nBadass: making users awesome\n<http:\/\/www.amazon.com\/Badass-Making-Awesome-Kathy-Sierra\/dp\/1491919019>\n\ninformation architecture for the world wide web, 2nd ed\n<http:\/\/www.amazon.com\/Information-Architecture-World-Wide-Web\/dp\/0596000359>\n\njust enough research\n<http:\/\/abookapart.com\/products\/just-enough-research>",
+      "text": "<@U08NE835M>: <!group> For those of you interested, here are some UX book recommendations from Kara.\n\nDon\u2019t make me think, Revisited \n<http:\/\/www.amazon.com\/gp\/product\/0321965515\/ref=pd_lpo_sbs_dp_ss_1?pf_rd_p=1944687622&amp;pf_rd_s=lpo-top-stripe-1&amp;pf_rd_t=201&amp;pf_rd_i=0789723107&amp;pf_rd_m=ATVPDKIKX0DER&amp;pf_rd_r=1HP8FGN2DVT77B8M2JYW>\n\nBadass: making users awesome\n<http:\/\/www.amazon.com\/Badass-Making-Awesome-Kathy-Sierra\/dp\/1491919019>\n\ninformation architecture for the world wide web, 2nd ed\n<http:\/\/www.amazon.com\/Information-Architecture-World-Wide-Web\/dp\/0596000359>\n\njust enough research\n<http:\/\/abookapart.com\/products\/just-enough-research>",
       "ts": "1438805588.000012",
       "type": "message",
       "user": "U03PX5UA0"
@@ -293,5 +293,6 @@ module.exports = {
           "creator": "",
           "last_set": 0
       }
+    }
   }
 }

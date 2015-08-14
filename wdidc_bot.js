@@ -39,15 +39,16 @@ request("https://slack.com/api/rtm.start?token=" + env.token, function(err,respo
               }())
             );
             break;
-          case "anonymous":
+          case "anon":
             m.repost({from: m.sender, to: env.public_group_id}, function(ms){
-              SlackAPI.get_username(m.user, function(username){
-                m.repost({
-                  to: env.private_group_id,
-                  message: "```\n" + username + " posted " + ms.ts.replace(".","") + ": " + m.text + "\n```"
-                })
-              });
-            });
+                SlackAPI.get_username(m.user, function(username){
+                  m.repost({
+                    to: env.private_group_id,
+                    message: "```\n" + username + " posted " + ms.ts.replace(".","") + ": " + m.text + "\n```"
+                  })
+                });
+              }
+            );
             break;
           case "edit":
             if(m.sender != "instructor") return;

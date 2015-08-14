@@ -1,5 +1,5 @@
 *Available commands:*
-`Anonymous:` Sends an anonymous message to the group:
+`Anon:` Sends an anonymous message to the group:
 ```
-Anonymous: Hello! My name is Joe.
+Anon: Hello! My name is Joe.
 ```

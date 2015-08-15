@@ -68,7 +68,7 @@ request("https://slack.com/api/rtm.start?token=" + env.token, function(err,respo
           m.reply("Command not recognized. Try typing `Help:`.")
         }
       }else{
-        m.reply("Hi there! Give me commands by direct messaging me with the command followed by `:`. For example:\n```\nHelp:\n```");
+        m.reply("Hi there! Give me commands by direct messaging me with the command followed by `:`. For example, to see the 'help' menu, you'd DM me:\n>Help:");
       }
     }
 

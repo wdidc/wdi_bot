@@ -1,5 +1,3 @@
 *Available commands:*
 `Anon:` Sends an anonymous message to the group:
-```
-Anon: Hello! My name is Joe.
-```
+>Anon: Hello! My name is Joe.

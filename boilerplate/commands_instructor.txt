@@ -1,11 +1,11 @@
 *Special instructor commands:*
 
-`Edit [timestamp]: [message]` Edits an anonymous post. To get the timestamp, right-click or control-click on the time `(11:43)` next to the message as it appears in the public group, and select `Copy Link`.
+`Edit [timestamp]: [new message text]` Edits an anonymous post.
 ```
-Edit https://generalassembly.slack.com/archives/D090N3NNR/p1439563175000062: This is my edited text.
+Edit 1439563175.000062: This is my edited text.
 ```
 
 `Delete [timestamp]:` Deletes an anonymous post:
 ```
-Delete https://generalassembly.slack.com/archives/D090N3NNR/p1439563175000062:
+Delete 1439563175.000062:
 ```

@@ -29,7 +29,10 @@ request("https://slack.com/api/rtm.start?token=" + env.token, function(err,respo
       if(/@instructors/ig.test(m.rawText)){
         SlackAPI.get_username(m.user, function(username){
           m.repost({
-            from: username,
+            to: env.public_group_id,
+            message: "The instructors have been notified!"
+          });
+          m.repost({
             to: env.private_group_id,
             message: global.bot.summon_admins + "\n```\n" + username + ": " + m.text + "\n```"
           });
@@ -60,7 +63,6 @@ request("https://slack.com/api/rtm.start?token=" + env.token, function(err,respo
         if(command == "instructors"){
           SlackAPI.get_username(m.user, function(username){
             m.repost({
-              from: username,
               to: env.private_group_id,
               message: global.bot.summon_admins + "\n```\n" + username + ": " + m.text + "\n```"
             });

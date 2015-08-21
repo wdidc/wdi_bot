@@ -31,7 +31,7 @@ request("https://slack.com/api/rtm.start?token=" + env.token, function(err,respo
           m.repost({
             from: username,
             to: env.private_group_id,
-            message: global.bot.summon_admins + "\n```\n" + username + " requests instructors: " + m.text + "\n```"
+            message: global.bot.summon_admins + "\n```\n" + username + ": " + m.text + "\n```"
           });
         });
       }
@@ -62,7 +62,7 @@ request("https://slack.com/api/rtm.start?token=" + env.token, function(err,respo
             m.repost({
               from: username,
               to: env.private_group_id,
-              message: global.bot.summon_admins + "\n```\n" + username + " requests instructors: " + m.text + "\n```"
+              message: global.bot.summon_admins + "\n```\n" + username + ": " + m.text + "\n```"
             });
           });
         }else

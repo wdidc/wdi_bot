@@ -1,3 +1,5 @@
 *Available commands:*
 `Anon:` Sends an anonymous message to the group:
 >Anon: Hello! My name is Joe.
+
+`Instructors:` Sends a **not** anonymous **private** message to each of the instructors.

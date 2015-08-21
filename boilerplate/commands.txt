@@ -3,3 +3,6 @@
 >Anon: Hello! My name is Joe.
 
 `Instructors:` Sends a **not** anonymous **private** message to each of the instructors.
+>Instructors: My hair is on fire.
+
+`@instructors` in the main group: See above.

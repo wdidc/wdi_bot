@@ -1,35 +1,26 @@
 var SlackAPI= require("./lib/SlackAPI");
 var responseTo = require("./lib/response");
-var boilerplate = require("./lib/boilerplate");
+var canned = require("./lib/boilerplate");
 
 SlackAPI.refresh_groups();
+global.bot.poll = {inProgress: false, members: [], responses: []};
 SlackAPI.onMessage(function(message){
   respondWith = responseTo(message);
+  console.log(message);
   if(message.sender == "self"){
     return;
   }else
-  if(message.intent == "botMention"){
-    respondWith.reply(boilerplate.blurbs.atmention);
-  }else
   if(message.command == "help"){
-    respondWith.reply([
-      "**Anonbot commands**",
-      boilerplate.instructionsFor.anon,
-      boilerplate.instructionsFor.instructors,
-      boilerplate.instructionsFor.remindme,
-      boilerplate.instructionsFor.allreminders,
-      boilerplate.instructionsFor.stopreminder
-    ].join("\n\n"));
+    var dm = canned.instructionsFor.dm.all;
+    var group = canned.instructionsFor.group.all;
     if(message.sender == "instructor"){
-      respondWith.reply([
-        "**Instructors only**",
-        boilerplate.instructionsFor.edit,
-        boilerplate.instructionsFor.delete
-      ].join("\n\n"));
+      dm = dm.concat(canned.instructionsFor.dm.instructors);
+      group = group.concat(canned.instructionsFor.group.instructors);
     }
+    respondWith.reply("**Direct Message (DM) Commands**:\n\n" + dm.join("\n\n"));
+    respondWith.reply("**Group / Room Commands**:\n\n" + group.join("\n\n"));
   }else
-  if(message.command == "remindme"
-  && (message.sender == "instructor" || message.group == "dm")){
+  if(message.command == "remindme" && (message.sender == "instructor" || message.channelType == "dm")){
     respondWith.reminder.new();
   }else
   if(message.command == "stopreminder" && message.sender == "instructor"){
@@ -38,13 +29,26 @@ SlackAPI.onMessage(function(message){
   if(message.command == "allreminders"){
     respondWith.reminder.all();
   }else
-  if(message.group == "public"){
+  if(message.channelType == "group"){
+    if(message.intent == "botMention"){
+      respondWith.reply(boilerplate.blurbs.atmention);
+    }else
     if(message.mentions("instructors")){
       respondWith.postIn.public(boilerplate.blurbs.instructorsNotified);
       respondWith.instructorSiren();
+    }else
+    if(message.command == "pollme"){
+      if(!global.bot.poll.inProgress){
+        respondWith.poll.new();
+      }else{
+        respondWith.reply("A poll's already in progress!");
+      }
     }
   }else
-  if(message.group == "dm"){
+  if(message.channelType == "dm"){
+    if(global.bot.poll.inProgress && respondWith.poll.log()){
+      respondWith.reply("I've logged your response to the poll!")
+    }else
     if(message.intent != "command"){
       respondWith.reply(boilerplate.blurbs.hello);
     }else

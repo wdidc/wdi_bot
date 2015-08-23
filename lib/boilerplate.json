@@ -1,9 +1,12 @@
 {
   "instructionsFor": {
-    "edit": "Edit 1439563175.000062: Finds the message in the public room with this timestamp, and changes its text to this message.",
-    "delete": "Delete 1439563175.000062: Finds the message in the public room with this timestamp, and deletes it.",
-    "anon": "Anon: Sends an anonymous message to the group.",
-    "instructors": "Instructors: Sends a *not* anonymous *private* message to each of the instructors. Mentioning *@instructors* in the main group does the same."
+    "edit": "Edit 1439563175.000062: [new message] --- I find the message in the public room with the given timestamp, and change its text.",
+    "delete": "Delete 1439563175.000062: --- I find the message in the public room with the given timestamp, and delete it.",
+    "remindme": "Remindme */5_*_*_*_*_*: [message] --- I post to the room (or direct message conversation) according to the given Cron schedule. See how to write Crons here: http://crontab-generator.org . Instead of 5 fields, I accept 6, beginning with seconds. The example here means 'every 5 seconds'. Only instructors can make reminders for groups.",
+    "allreminders": "Allreminders: --- I show all reminders for the current room (or DM conversation).",
+    "stopreminder": "Stopreminder 3: --- I stop the reminder with the given ID. Only instructors can stop reminders for groups.",
+    "anon": "Anon: --- I send an anonymous message to the group.",
+    "instructors": "Instructors: --- I send a *not* anonymous *private* message to each of the instructors. Mentioning *@instructors* in the main group does the same."
   },
   "blurbs": {
     "hello": "Hi there! Give me commands by direct messaging me with the command followed by ':'. For example, to see the 'help' menu, you'd direct message me with:\n\nHelp:",

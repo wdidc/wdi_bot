@@ -11,6 +11,33 @@ SlackAPI.onMessage(function(message){
   if(message.intent == "botMention"){
     respondWith.reply(boilerplate.blurbs.atmention);
   }else
+  if(message.command == "help"){
+    respondWith.reply([
+      "**Anonbot commands**",
+      boilerplate.instructionsFor.anon,
+      boilerplate.instructionsFor.instructors,
+      boilerplate.instructionsFor.remindme,
+      boilerplate.instructionsFor.allreminders,
+      boilerplate.instructionsFor.stopreminder
+    ].join("\n\n"));
+    if(message.sender == "instructor"){
+      respondWith.reply([
+        "**Instructors only**",
+        boilerplate.instructionsFor.edit,
+        boilerplate.instructionsFor.delete
+      ].join("\n\n"));
+    }
+  }else
+  if(message.command == "remindme"
+  && (message.sender == "instructor" || message.group == "dm")){
+    respondWith.reminder.new();
+  }else
+  if(message.command == "stopreminder" && message.sender == "instructor"){
+    respondWith.reminder.stop();
+  }else
+  if(message.command == "allreminders"){
+    respondWith.reminder.all();
+  }else
   if(message.group == "public"){
     if(message.mentions("instructors")){
       respondWith.postIn.public(boilerplate.blurbs.instructorsNotified);
@@ -27,24 +54,17 @@ SlackAPI.onMessage(function(message){
     if(message.command == "instructors"){
       respondWith.instructorSiren();
     }else
-    if(message.command == "edit" && message.sender == "instructor"){
-      respondWith.edit();
-      respondWith.postIn.private();
-    }else
-    if(message.command == "delete" && message.sender == "instructor"){
-      respondWith.delete();
-      respondWith.postIn.private();
-    }else
-    if(message.command == "help"){
-      respondWith.reply([
-        boilerplate.instructionsFor.anon,
-        boilerplate.instructionsFor.instructors
-      ].join("\n\n"));
-      if(message.sender == "instructor"){
-        respondWith.reply([
-          boilerplate.instructionsFor.edit,
-          boilerplate.instructionsFor.delete
-        ].join("\n\n"));
+    if(message.sender == "instructor"){
+      if(message.command == "refresh"){
+        SlackAPI.refresh_groups();
+      }else
+      if(message.command == "edit"){
+        respondWith.edit();
+        respondWith.postIn.private();
+      }else
+      if(message.command == "delete"){
+        respondWith.delete();
+        respondWith.postIn.private();
       }
     }
     else{

@@ -1,99 +1,55 @@
-var request   = require( "request" );
-var WebSocket = require( "ws" );
-var env       = require( "./env" );
-var fs        = require("fs");
-
-var h       = require("./lib/helper")();
-var Message = require("./lib/message");
-var SlackAPI= require("./lib/slack")();
-
-var boilerplate = {}
-fs.readFile(__dirname + "/boilerplate/commands.txt", "utf8", function(e, d){
-  boilerplate.commands = d;
-})
-fs.readFile(__dirname + "/boilerplate/commands_instructor.txt", "utf8", function(e, d){
-  boilerplate.commands_instructor = d;
-});
+var SlackAPI= require("./lib/SlackAPI");
+var responseTo = require("./lib/response");
+var boilerplate = require("./lib/boilerplate");
 
 SlackAPI.refresh_groups();
-
-request("https://slack.com/api/rtm.start?token=" + env.token, function(err,response,body){
-  var ws = new WebSocket( JSON.parse( body ).url );
-
-  ws.on( "message", function( message ){
-    var m = Message( JSON.parse(message) );
-    if(!m) return;
-    else console.log("***New message received: " + JSON.stringify(m));
-
-    if(m.group == "public"){
-      if(/@instructors/ig.test(m.rawText)){
-        SlackAPI.get_username(m.user, function(username){
-          m.repost({
-            to: env.public_group_id,
-            message: "The instructors have been notified!"
-          });
-          m.repost({
-            to: env.private_group_id,
-            message: global.bot.summon_admins + "\n```\n" + username + ": " + m.text + "\n```"
-          });
-        });
-      }
+SlackAPI.onMessage(function(message){
+  respondWith = responseTo(message);
+  if(message.sender == "self"){
+    return;
+  }else
+  if(message.intent == "botMention"){
+    respondWith.reply(boilerplate.blurbs.atmention);
+  }else
+  if(message.group == "public"){
+    if(message.mentions("instructors")){
+      respondWith.postIn.public(boilerplate.blurbs.instructorsNotified);
+      respondWith.instructorSiren();
+    }
+  }else
+  if(message.group == "dm"){
+    if(message.intent != "command"){
+      respondWith.reply(boilerplate.blurbs.hello);
     }else
-    if(m.group == "dm" && m.sender != "self"){
-      if(m.intent == "command"){
-        var command = m.command.name.toLowerCase();
-        if(command == "help"){
-          m.reply(
-            boilerplate["commands"] + (m.sender == "instructor" ? boilerplate["commands_instructor"] : "")
-          );
-        }else
-        if(command == "anon"){
-          m.repost(
-            {from: m.sender, to: env.public_group_id},
-            function(ms){
-              SlackAPI.get_username(m.user, function(username){
-                m.repost({
-                  to: env.private_group_id,
-                  message: "```\n" + username + " posted " + ms.ts + ": " + m.text + "\n```"
-                })
-              });
-            }
-          );
-        }else
-        if(command == "instructors"){
-          SlackAPI.get_username(m.user, function(username){
-            m.repost({
-              to: env.private_group_id,
-              message: global.bot.summon_admins + "\n```\n" + username + ": " + m.text + "\n```"
-            });
-          });
-        }else
-        if(m.sender == "instructor" && command == "edit"){
-          if(!m.edit(m.command.args[0])) return;
-          SlackAPI.get_username(m.user, function(username){
-            m.repost({
-              to: env.private_group_id,
-              message: "```\n" + username + " edited " + m.command.args[0] + ": " + m.text + "\n```"
-            })
-          });
-        }else
-        if(m.sender == "instructor" && command == "delete"){
-          if(!m.delete(m.command.args[0])) return;
-          SlackAPI.get_username(m.user, function(username){
-            m.repost({
-              to: env.private_group_id,
-              message: "```\n" + username + " delete " + m.command.args[0] + "\n```"
-            })
-          });
-        }
-        else{
-          m.reply("Command not recognized. Try typing `Help:`.")
-        }
-      }else{
-        m.reply("Hi there! Give me commands by direct messaging me with the command followed by `:`. For example, to see the 'help' menu, you'd DM me:\n>Help:");
+    if(message.command == "anon"){
+      respondWith.anonymousMessage();
+    }else
+    if(message.command == "instructors"){
+      respondWith.instructorSiren();
+    }else
+    if(message.command == "edit" && message.sender == "instructor"){
+      respondWith.edit();
+      respondWith.postIn.private();
+    }else
+    if(message.command == "delete" && message.sender == "instructor"){
+      respondWith.delete();
+      respondWith.postIn.private();
+    }else
+    if(message.command == "help"){
+      respondWith.reply([
+        boilerplate.instructionsFor.anon,
+        boilerplate.instructionsFor.instructors
+      ].join("\n\n"));
+      if(message.sender == "instructor"){
+        respondWith.reply([
+          boilerplate.instructionsFor.edit,
+          boilerplate.instructionsFor.delete
+        ].join("\n\n"));
       }
     }
-
-  });
+    else{
+      respondWith.reply(boilerplate.blurbs.error)
+    }
+  }
 
 });

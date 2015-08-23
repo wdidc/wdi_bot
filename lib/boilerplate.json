@@ -1,0 +1,14 @@
+{
+  "instructionsFor": {
+    "edit": "Edit 1439563175.000062: Finds the message in the public room with this timestamp, and changes its text to this message.",
+    "delete": "Delete 1439563175.000062: Finds the message in the public room with this timestamp, and deletes it.",
+    "anon": "Anon: Sends an anonymous message to the group.",
+    "instructors": "Instructors: Sends a *not* anonymous *private* message to each of the instructors. Mentioning *@instructors* in the main group does the same."
+  },
+  "blurbs": {
+    "hello": "Hi there! Give me commands by direct messaging me with the command followed by ':'. For example, to see the 'help' menu, you'd direct message me with:\n\nHelp:",
+    "error": "Command not recognized. Try typing `Help:`.",
+    "instructorsNotified": "The instructors have been notified!",
+    "atmention": "@mentioning me doesn't do anything. Please direct message me!"
+  }
+}

@@ -1,7 +1,0 @@
-*Special instructor commands:*
-
-`Edit [timestamp]: [new message text]` Edits an anonymous post.
-> Edit 1439563175.000062: This is my edited text.
-
-`Delete [timestamp]:` Deletes an anonymous post:
-> Delete 1439563175.000062:

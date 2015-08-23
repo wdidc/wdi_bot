@@ -9,8 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cron": "*",
     "request": "^2.60.0",
-    "ws": "^0.7.2",
-    "cron": "*"
+    "sequelize": "^3.6.0",
+    "sqlite3": "^3.0.10",
+    "ws": "^0.7.2"
   }
 }

@@ -39,7 +39,10 @@ SlackAPI.onMessage(function(message){
     }else
     if(message.command == "pollme"){
       if(!global.bot.poll.inProgress){
-        respondWith.poll.new("You've been asked a question:\n-----\n" + message.text + "\n-----\nPlease respond to me with a number between 0 and 5 within the next 7 seconds.");
+        respondWith.poll.new(
+          "You've been asked a question:\n-----\n" + message.text + "\n-----\nPlease respond to me with a number between 0 and 5 within the next 7 seconds.",
+          "The question was: " + message.text + "\n"
+        );
       }else{
         respondWith.reply("A poll's already in progress!");
       }

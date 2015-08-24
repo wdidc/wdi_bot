@@ -12,7 +12,8 @@
       "instructors": [
         "INSTRUCTORS ONLY:",
         "Edit 1439563175.000062: [new message]\nI find the message in the public room with the given timestamp, and change its text.",
-        "Delete 1439563175.000062:\nI find the message in the public room with the given timestamp, and delete it."
+        "Delete 1439563175.000062:\nI find the message in the public room with the given timestamp, and delete it.",
+        "Refresh:\nRe-loads all of the group names and instructor IDs from the private group."
       ]
     },
     "group": {

@@ -27,7 +27,8 @@
         "---Instructors Only---",
         "Remindme */5_*_*_*_*_*: [message]\nI post your message to th egroup according to the given Cron schedule. See how to write Crons here: http://crontab-generator.org . Instead of 5 fields, I accept 6, beginning with seconds. The example here means 'every 5 seconds'.",
         "Stopreminder [id]:\nI stop the reminder with the given ID.",
-        "Pollme: [question]\nI relay your question as a DM to all members of the group, asking for them to respond with a number between 0 and 5 within 10 seconds. Then I display the results to the group."
+        "Pollme: [question]\nI relay your question as a DM to all members of the group, asking for them to respond with a number between 0 and 5.",
+        "Pollstop:\nI close the poll and display the results to the group."
       ]
     }
   },

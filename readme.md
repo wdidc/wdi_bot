@@ -64,34 +64,25 @@ Pollme: [question]
 I relay your question as a DM to all members of the group, asking for them to respond with a number between 0 and 5 within 10 seconds. Then I display the results to the group.
 ```
 ```txt
-***Direct Message (DM) Commands***
+***Group / Channel Commands***
 
-Help:
-You're looking at it.
-
-Anon: [message]
-I send an anonymous message to the group.
-
-Instructors: [message]
+@instructors [message]
 I send a *not* anonymous *private* message to each of the instructors.
 
-Remindme */5_*_*_*_*_*: [message]
-I DM you your message according to the given Cron schedule. See how to write Crons here: http://crontab-generator.org . Instead of 5 fields, I accept 6, beginning with seconds. The example here means 'every 5 seconds'.
-
 Allreminders:
-I show all reminders I'm scheduled to DM you.
+I show all reminders I'm scheduled to post to the group.
+
+---Instructors Only---
+
+Remindme */5_*_*_*_*_*: [message]
+I post your message to th egroup according to the given Cron schedule. See how to write Crons here: http://crontab-generator.org . Instead of 5 fields, I accept 6, beginning with seconds. The example here means 'every 5 seconds'.
 
 Stopreminder [id]:
 I stop the reminder with the given ID.
 
----Instructors Only---
+Pollme: [question]
+I relay your question as a DM to all members of the group, asking for them to respond with a number between 0 and 5.
 
-Edit 1439563175.000062: [new message]
-I find the message in the public room with the given timestamp, and change its text.
-
-Delete 1439563175.000062:
-I find the message in the public room with the given timestamp, and delete it.
-
-Refresh:
-Re-loads all of the group names and instructor IDs from the private group.
+Pollstop:
+I close the poll and display the results to the group.
 ```

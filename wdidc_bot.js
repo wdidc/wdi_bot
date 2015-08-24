@@ -37,14 +37,20 @@ SlackAPI.onMessage(function(message){
       respondWith.postIn.public(canned.blurbs.instructorsNotified);
       respondWith.instructorSiren();
     }else
-    if(message.command == "pollme"){
-      if(!global.bot.poll.inProgress){
-        respondWith.poll.new(
-          "You've been asked a question:\n-----\n" + message.text + "\n-----\nPlease respond to me with a number between 0 and 5 within the next 7 seconds.",
-          "The question was: " + message.text + "\n"
-        );
-      }else{
-        respondWith.reply("A poll's already in progress!");
+    if(message.intent == "command"){
+      if(message.sender == "instructor"){
+        if(message.command == "pollme"){
+          if(!global.bot.poll.inProgress){
+            respondWith.poll.new(
+              "You've been asked a question:\n-----\n" + message.text + "\n-----\nPlease respond to me with a number between 0 and 5."
+            );
+          }else{
+            respondWith.reply("A poll's already in progress!");
+          }
+        }else
+        if(message.command == "pollstop"){
+          respondWith.poll.stop();
+        }
       }
     }
   }else

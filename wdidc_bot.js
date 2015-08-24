@@ -1,5 +1,5 @@
 var SlackAPI= require("./lib/SlackAPI");
-var responseTo = require("./lib/response");
+var responseTo = require("./lib/message_out");
 var canned = require("./lib/boilerplate");
 
 SlackAPI.refresh_groups();
@@ -31,15 +31,15 @@ SlackAPI.onMessage(function(message){
   }else
   if(message.channelType == "group"){
     if(message.intent == "botMention"){
-      respondWith.reply(boilerplate.blurbs.atmention);
+      respondWith.reply(canned.blurbs.atmention);
     }else
     if(message.mentions("instructors")){
-      respondWith.postIn.public(boilerplate.blurbs.instructorsNotified);
+      respondWith.postIn.public(canned.blurbs.instructorsNotified);
       respondWith.instructorSiren();
     }else
     if(message.command == "pollme"){
       if(!global.bot.poll.inProgress){
-        respondWith.poll.new();
+        respondWith.poll.new("You've been asked a question:\n-----\n" + message.text + "\n-----\nPlease respond to me with a number between 0 and 5 within the next 7 seconds.");
       }else{
         respondWith.reply("A poll's already in progress!");
       }
@@ -50,7 +50,7 @@ SlackAPI.onMessage(function(message){
       respondWith.reply("I've logged your response to the poll!")
     }else
     if(message.intent != "command"){
-      respondWith.reply(boilerplate.blurbs.hello);
+      respondWith.reply(canned.blurbs.hello);
     }else
     if(message.command == "anon"){
       respondWith.anonymousMessage();
@@ -72,7 +72,7 @@ SlackAPI.onMessage(function(message){
       }
     }
     else{
-      respondWith.reply(boilerplate.blurbs.error)
+      respondWith.reply(canned.blurbs.error)
     }
   }
 

@@ -17,8 +17,8 @@ SlackAPI.onMessage(function(message){
       dm = dm.concat(canned.instructionsFor.dm.instructors);
       group = group.concat(canned.instructionsFor.group.instructors);
     }
-    respondWith.reply("**Direct Message (DM) Commands**:\n\n" + dm.join("\n\n"));
-    respondWith.reply("**Group / Room Commands**:\n\n" + group.join("\n\n"));
+    respondWith.reply(dm.join("\n\n"));
+    respondWith.reply(group.join("\n\n"));
   }else
   if(message.command == "remindme" && (message.sender == "instructor" || message.channelType == "dm")){
     respondWith.reminder.new();

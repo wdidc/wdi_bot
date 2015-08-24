@@ -49,7 +49,7 @@ When anyone @mentions the bot from the "private group", it will send the respons
 
 ## Commands
 ```txt
-**Group / Room Commands**:
+***Group / Channel Commands***
 
 @instructors [message]
 I send a *not* anonymous *private* message to each of the instructors.
@@ -57,7 +57,7 @@ I send a *not* anonymous *private* message to each of the instructors.
 Allreminders:
 I show all reminders I'm scheduled to post to the group.
 
-INSTRUCTORS ONLY:
+---Instructors Only---
 
 Remindme */5_*_*_*_*_*: [message]
 I post your message to th egroup according to the given Cron schedule. See how to write Crons here: http://crontab-generator.org . Instead of 5 fields, I accept 6, beginning with seconds. The example here means 'every 5 seconds'.
@@ -69,7 +69,7 @@ Pollme: [question]
 I relay your question as a DM to all members of the group, asking for them to respond with a number between 0 and 5 within 10 seconds. Then I display the results to the group.
 ```
 ```txt
-**Direct Message (DM) Commands**:
+***Direct Message (DM) Commands***
 
 Help:
 You're looking at it.
@@ -89,7 +89,7 @@ I show all reminders I'm scheduled to DM you.
 Stopreminder [id]:
 I stop the reminder with the given ID.
 
-INSTRUCTORS ONLY:
+---Instructors Only---
 
 Edit 1439563175.000062: [new message]
 I find the message in the public room with the given timestamp, and change its text.

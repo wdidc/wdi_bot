@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chrono-node": "^1.0.6",
     "cron": "*",
     "request": "^2.60.0",
     "sequelize": "^3.6.0",

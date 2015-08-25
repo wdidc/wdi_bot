@@ -20,15 +20,6 @@ SlackAPI.onMessage(function(message){
     respondWith.reply(dm.join("\n\n"));
     respondWith.reply(group.join("\n\n"));
   }else
-  if(message.command == "remindme" && (message.sender == "instructor" || message.channelType == "dm")){
-    respondWith.reminder.new();
-  }else
-  if(message.command == "stopreminder" && message.sender == "instructor"){
-    respondWith.reminder.stop();
-  }else
-  if(message.command == "allreminders"){
-    respondWith.reminder.all();
-  }else
   if(message.channelType == "group"){
     if(message.intent == "botMention"){
       respondWith.reply(canned.blurbs.atmention);
@@ -38,7 +29,19 @@ SlackAPI.onMessage(function(message){
       respondWith.instructorSiren();
     }else
     if(message.intent == "command"){
+      if(message.command == "allreminders"){
+        respondWith.reminder.showAll();
+      }else
       if(message.sender == "instructor"){
+        if(message.command == "remindme"){
+          respondWith.reminder.create();
+        }else
+        if(message.command == "stopreminder"){
+          respondWith.reminder.cancel();
+        }else
+        if(message.command == "pollstop"){
+          respondWith.poll.stop();
+        }else
         if(message.command == "pollme"){
           if(!global.bot.poll.inProgress){
             respondWith.poll.new(
@@ -47,9 +50,6 @@ SlackAPI.onMessage(function(message){
           }else{
             respondWith.reply("A poll's already in progress!");
           }
-        }else
-        if(message.command == "pollstop"){
-          respondWith.poll.stop();
         }
       }
     }
@@ -66,6 +66,15 @@ SlackAPI.onMessage(function(message){
     }else
     if(message.command == "instructors"){
       respondWith.instructorSiren();
+    }else
+    if(message.command == "remindme"){
+      respondWith.reminder.create();
+    }else
+    if(message.command == "allreminders"){
+      respondWith.reminder.showAll();
+    }else
+    if(message.command == "stopreminder"){
+      respondWith.reminder.cancel();
     }else
     if(message.sender == "instructor"){
       if(message.command == "refresh"){

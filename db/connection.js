@@ -7,7 +7,7 @@ var db_connection = new Sequelize("wdi_bot", null, null, {
 });
 
 var Reminder = db_connection.define("reminder", {
-  channelID: Sequelize.STRING,
+  channel: Sequelize.STRING,
   cron: Sequelize.STRING,
   message: Sequelize.TEXT
 });

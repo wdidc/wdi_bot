@@ -35,6 +35,6 @@
     "hello": "Hi there! Give me commands by direct messaging me with the command followed by ':'. For example, to see the 'help' menu, you'd direct message me with:\n\nHelp:",
     "error": "Command not recognized. Try typing `Help:`.",
     "instructorsNotified": "The instructors have been notified!",
-    "atmention": "@mentioning me doesn't do anything. Please direct message me!"
+    "atmention": "@mentioning me doesn't do anything. Please direct message me for more info!"
   }
 }

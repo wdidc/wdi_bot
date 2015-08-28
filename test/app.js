@@ -3,9 +3,9 @@ var WebSocket = require( "ws" );
 var env       = require( "../env" );
 var seeds     = require( "../test/seeds" );
 
-var h       = require("../lib/helperMethods");
-var Message = require("../lib/message_in");
-var Response= require("../lib/message_out");
+var h       = require("../lib/helper");
+var Response= require("../lib/controllers/messages");
+var Message = require("../lib/models/message");
 var SlackAPI= require("../lib/SlackAPI");
 
 global.bot = {}
@@ -17,9 +17,9 @@ describe( "Message", function(){
     describe( "Mention", function(){
       it( "contains the bot's ID", function(){
         assert( seeds.pub_mention.text.match(env.bot_id) );
-        assert.notEqual( Message( seeds.any_message ).intent, "botMention");
-        assert.notEqual( Message( seeds.student_dm ).intent, "botMention" );
-        assert.equal( Message( seeds.pvt_mention).intent, "botMention" );
+        assert( !Message( seeds.any_message ).mentionsBot );
+        assert( !Message( seeds.student_dm ).mentionsBot );
+        assert( Message( seeds.pvt_mention).mentionsBot );
       })
     })
     describe( "Direct Message", function(){

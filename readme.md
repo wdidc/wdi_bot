@@ -32,57 +32,47 @@ module.exports = {
 $ node app.js
 ```
 
+## Posting
+
+When anyone DMs the bot, it will check to see whether that person is a student or instructor by comparing their user ID against the IDs of those in the "private" group.
+
+If the user is a student, it will repost the response to the public group headed with the text `[Student]`, and to the private group headed with `[MESSAGER'S_USERNAME]`.
+
+When anyone @mentions the bot from the "private group", it will send the response to the public group headed with the text `[Instructor]`. (Presumably, anyone in the private group will be "authorized" to use the bot.)
+
+## Commands
+
+In the private room, @mention the bot with a command inside `!!{ }!!`.
+
+### edit
+
+Examples: 
+```
+@test_wdi_bot: !!{edit 1439338127000074}
+
+@test_wdi_bot: !!{edit https://ga-students.slack.com/archives/wdi_bot_test_public/p1439338127000074}!! This has been edited again.
+```
+
+The second value contains the timestamp of the post *when it was made inside the **public** group*.
+
+It can be obtained by going into the public group, right-clicking the time o'clock to the left of the message, and selecting "copy link".
+
+The text following the `!!{...}!!` is what will replace the original text.
+
+### delete
+
+Same as editing, but with the word `delete` instead of `edit`, and the text following the `!!{...}!!` has no effect.
+
+### refresh
+```
+@test_wdi_bot: !!{refresh}!!
+```
+
+This makes the bot refresh its list of which users are a part of the private group. It runs automatically whenever a user joins or leaves the private group.
+
 ## Testing
 
 ```
 npm -g install mocha
 mocha -b
-```
-
-## Commands
-
-The bot checks whether a person is a student or instructor by comparing their user ID against the IDs of those in the "private" group.
-
-```txt
-***Group / Channel Commands***
-
-@instructors [message]
-I send a *not* anonymous *private* message to each of the instructors.
-
-Allreminders:
-I show all reminders I'm scheduled to post to the group.
-
----Instructors Only---
-
-Remindme */5_*_*_*_*_*: [message]
-I post your message to th egroup according to the given Cron schedule. See how to write Crons here: http://crontab-generator.org . Instead of 5 fields, I accept 6, beginning with seconds. The example here means 'every 5 seconds'.
-
-Stopreminder [id]:
-I stop the reminder with the given ID.
-
-Pollme: [question]
-I relay your question as a DM to all members of the group, asking for them to respond with a number between 0 and 5 within 10 seconds. Then I display the results to the group.
-```
-```txt
-***Group / Channel Commands***
-
-@instructors [message]
-I send a *not* anonymous *private* message to each of the instructors.
-
-Allreminders:
-I show all reminders I'm scheduled to post to the group.
-
----Instructors Only---
-
-Remindme */5_*_*_*_*_*: [message]
-I post your message to th egroup according to the given Cron schedule. See how to write Crons here: http://crontab-generator.org . Instead of 5 fields, I accept 6, beginning with seconds. The example here means 'every 5 seconds'.
-
-Stopreminder [id]:
-I stop the reminder with the given ID.
-
-Pollme: [question]
-I relay your question as a DM to all members of the group, asking for them to respond with a number between 0 and 5.
-
-Pollstop:
-I close the poll and display the results to the group.
 ```

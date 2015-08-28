@@ -7,15 +7,15 @@ var db_connection = new Sequelize("wdi_bot", null, null, {
 });
 
 var Reminder = db_connection.define("reminder", {
-  channel: Sequelize.STRING,
-  cron: Sequelize.STRING,
-  text: Sequelize.TEXT
+  userId: Sequelize.STRING,
+  active: Sequelize.BOOLEAN,
+  content: Sequelize.TEXT
 });
 
 module.exports = {
   Sequelize: Sequelize,
   connection: db_connection,
   models: {
-    Reminder: Reminder
+    reminder: Reminder
   }
 }

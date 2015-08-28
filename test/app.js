@@ -3,30 +3,28 @@ var WebSocket = require( "ws" );
 var env       = require( "../env" );
 var seeds     = require( "../test/seeds" );
 
-var h       = require("../lib/helper");
-var Response= require("../lib/controllers/messages");
-var Message = require("../lib/models/message");
-var SlackAPI= require("../lib/SlackAPI");
+var h       = require("../lib/helper")();
+var Message = require("../lib/message");
+var SlackAPI= require("../lib/slack")();
 
 global.bot = {}
 global.bot.admin_ids = "U03LQC301,U03PX5UA0,U08N52D9A,U08NE835M";
 
 var assert = require( "assert" );
 describe( "Message", function(){
-  describe( "ChannelType", function(){
+  describe( "Group", function(){
     describe( "Mention", function(){
       it( "contains the bot's ID", function(){
         assert( seeds.pub_mention.text.match(env.bot_id) );
-        assert( !Message( seeds.any_message ).mentionsBot );
-        assert( !Message( seeds.student_dm ).mentionsBot );
-        assert( Message( seeds.pvt_mention).mentionsBot );
+        assert( !Message( seeds.any_message ).is_mention);
+        assert( !Message( seeds.student_dm ).is_mention );
       })
     })
     describe( "Direct Message", function(){
       it( "'s channel starts with D", function(){
         assert.equal( seeds.student_dm.channel[0], "D" );
-        assert.equal( Message( seeds.student_dm ).channelType, "dm" );
-        assert.notEqual( Message( seeds.pvt_mention ).channelType, "dm" );
+        assert.equal( Message( seeds.student_dm ).group, "dm" );
+        assert.notEqual( Message( seeds.pvt_mention ).group, "dm" );
       })
     })
   })
@@ -55,7 +53,7 @@ describe( "Message", function(){
   })
   describe("Intent", function(){
     describe("Command", function(){
-      it("begins with some text followed by a colon'", function(){
+      it("contains '!!{}!!'", function(){
 
       })
     })
@@ -100,10 +98,9 @@ describe("SlackAPI", function(){
   })
   it( "converts user id to name", function(done){
     SlackAPI.get("users.info",
-      { user: "U03QDDUSL" },
+      { user: "U03PX5UA0" },
       function( response ){
-        assert( response.ok );
-        assert.equal( response.user.name, "robertakarobin" );
+        assert.equal( response.user.name, "jshawl" );
         done();
       }
     )
@@ -111,5 +108,53 @@ describe("SlackAPI", function(){
 })
 
 describe( "App", function(){
+  describe("when it receives a mention", function(){
+    describe("from an instructor", function(){
+      describe("which is a command", function(){
+        describe("to update", function(){
+          describe("by editing", function(){
 
+          })
+        })
+      })
+      describe("otherwise", function(){
+        it("reposts to the public group", function(done){
+          var m = Message( seeds.pvt_mention );
+          assert(m.is_mention)
+          assert.equal(m.sender, "instructor")
+          m.repost(
+            {from: m.sender, to: env.public_group_id},
+            function(response){
+              assert(response.ok)
+              done()
+            }
+          )
+        })
+      })
+    })
+  })
+  describe("when it receives a DM", function(){
+    describe("from a student", function(){
+      var m = Message( seeds.student_dm )
+      assert.equal(m.group, "dm")
+      it("reposts to the public group", function(done){
+        m.repost(
+          {from: m.sender, to: env.public_group_id},
+          function(response){
+            assert(response.ok)
+            done()
+          }
+        )
+      })
+      it("reposts to the private group", function(){
+        m.repost(
+          {from: m.sender, to: env.private_group_id},
+          function(response){
+            assert(response.ok)
+            done()
+          }
+        )
+      })
+    })
+  })
 })

@@ -1,4 +1,4 @@
-var ResponseTo       = require("./lib/controllers/messages");
+var ResponseTo       = require("./lib/Router");
 var Message          = require("./lib/models/message");
 var SlackAPI         = require("./lib/SlackAPI");
 var env              = require("./env");

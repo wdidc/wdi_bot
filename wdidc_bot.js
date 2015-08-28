@@ -1,13 +1,10 @@
-"use strict";
-
 var ResponseTo       = require("./lib/controllers/messages");
 var Message          = require("./lib/models/message");
 var SlackAPI         = require("./lib/SlackAPI");
 var env              = require("./env");
 var cachedUsers      = {}
 
-global.bot = {}
-global.bot.poll = {inProgress: false, members: [], responses: []};
+if(!global.bot) global.bot = {}
 SlackAPI.refreshGroups();
 SlackAPI.listenFor("message", function(message){
   if(

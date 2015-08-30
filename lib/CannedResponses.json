@@ -6,7 +6,7 @@
         "Help:\nYou're looking at it.",
         "Anon: [message]\nI send an anonymous message to the group.",
         "Instructors: [message]\nI send a *not* anonymous *private* message to each of the instructors.",
-        "Remindme */5_*_*_*_*_*: [message]\nI DM you your message according to the given Cron schedule. See how to write Crons here: http://crontab-generator.org . Instead of 5 fields, I accept 6, beginning with seconds. The example here means 'every 5 seconds'.",
+        "Remindme \"5/* * * * * *\": [message]\nRemindme \"in 3 minutes\": [message]\nI DM you your message according to the given Cron schedule, or the given string converted to a Cron. See how to write Crons here: http://crontab-generator.org . Instead of 5 fields, I accept 6, beginning with seconds. The example here means 'every 3 seconds'.",
         "Allreminders:\nI show all reminders I'm scheduled to DM you.",
         "Stopreminder [id]:\nI stop the reminder with the given ID."
       ],
@@ -24,7 +24,7 @@
       ],
       "instructors": [
         "---Instructors Only---",
-        "Remindme */5_*_*_*_*_*: [message]\nI post your message to th egroup according to the given Cron schedule. See how to write Crons here: http://crontab-generator.org . Instead of 5 fields, I accept 6, beginning with seconds. The example here means 'every 5 seconds'.",
+        "Remindme \"5/* * * * * *\": [message]\nRemindme \"in 3 minutes\": [message]\nI post your message to th egroup according to the given Cron schedule. See how to write Crons here: http://crontab-generator.org . Instead of 5 fields, I accept 6, beginning with seconds. The example here means 'every 5 seconds'.",
         "Stopreminder [id]:\nI stop the reminder with the given ID.",
         "Pollme: [question]\nI relay your question as a DM to all members of the group, asking for them to respond with a number between 0 and 5.",
         "Pollstop:\nI close the poll and display the results to the group."

@@ -39,6 +39,15 @@ npm -g install mocha
 mocha -b
 ```
 
+## Deployment
+
+Commit your changes to master, then push to the production git repo (on wdidc.org).  The post_commit hook will automatically utilize your changes and they should be available on production shortly.
+```
+git remote add production git@git.wdidc.org:wdidc_bot.git
+git checkout master
+git push production master
+```
+
 ## Commands
 
 The bot checks whether a person is a student or instructor by comparing their user ID against the IDs of those in the "private" group.

@@ -4,27 +4,27 @@ var SlackAPI         = require("./lib/SlackAPI");
 var env              = require("./env");
 var cachedUsers      = {}
 
-if(!global.bot) global.bot = {}
+if(!global.botVars) global.botVars = {}
 SlackAPI.refreshGroups();
-SlackAPI.listenFor("message", function(message){
+SlackAPI.listenFor("message", function(input){
   if(
-    !message.channel
-    || !message.text
-    || message.type == "presence_change"
-    || message.type == "user_typing"
-    || message.type == "group_leave"
-    || message.subtype == "group_leave"
-    || message.user == env.bot_id
+    !input.channel
+    || !input.text
+    || input.type == "presence_change"
+    || input.type == "user_typing"
+    || input.type == "group_leave"
+    || input.subtype == "group_leave"
+    || input.user == env.bot_id
   ) return false;
-  if(!cachedUsers[message.user]){
-    SlackAPI.get("users.info", {user: message.user}, function(userInfo){
-      cachedUsers[message.user] = userInfo.user.name;
+  if(!cachedUsers[input.user]){
+    SlackAPI.get("users.info", {user: input.user}, function(userInfo){
+      cachedUsers[input.user] = userInfo.user.name;
       respond();
     });
   }else respond();
 
   function respond(){
-    message.username = cachedUsers[message.user];
-    new ResponseTo(new Message(message));
+    input.username = cachedUsers[input.user];
+    new ResponseTo(new Message(input));
   }
 });

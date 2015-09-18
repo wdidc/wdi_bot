@@ -8,8 +8,8 @@ var Response= require("../lib/controllers/messages");
 var Message = require("../lib/models/message");
 var SlackAPI= require("../lib/SlackAPI");
 
-global.bot = {}
-global.bot.admin_ids = "U03LQC301,U03PX5UA0,U08N52D9A,U08NE835M";
+global.botVars = {}
+global.botVars.admin_ids = "U03LQC301,U03PX5UA0,U08N52D9A,U08NE835M";
 
 var assert = require( "assert" );
 describe( "Message", function(){
